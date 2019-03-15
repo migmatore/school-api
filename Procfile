@@ -1,1 +1,1 @@
-web: school-api
+web: go run main.go
