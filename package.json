@@ -1,0 +1,19 @@
+{
+  "name": "school-api",
+  "version": "2.2.0",
+  "description": "Version 2.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moz200/school-api.git"
+  },
+  "author": "Kazakov Vladimir",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moz200/school-api/issues"
+  },
+  "homepage": "https://github.com/moz200/school-api#readme"
+}
