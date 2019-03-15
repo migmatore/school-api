@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -37,6 +39,12 @@ func initMigration() {
 }
 
 func main() {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+
 	initMigration()
 
 	r := gin.New()
@@ -62,7 +70,7 @@ func main() {
 		api.GET("/count", countPosts)
 	}
 
-	_ = r.Run("5000")
+	_ = r.Run(":" + port)
 }
 
 func home(c *gin.Context) {
