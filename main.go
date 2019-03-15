@@ -55,7 +55,7 @@ func main() {
 		AllowHeaders:     []string{"Origin, Authorization, Content-Type"},
 		ExposeHeaders:    []string{""},
 		AllowCredentials: true,
-		MaxAge:           50 * time.Hour,
+		MaxAge:           100 * time.Hour,
 	}))
 
 	api := r.Group("/api")
