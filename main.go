@@ -62,7 +62,7 @@ func main() {
 		api.GET("/count", countPosts)
 	}
 
-	_ = r.Run("8080")
+	_ = r.Run("5000")
 }
 
 func home(c *gin.Context) {
