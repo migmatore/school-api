@@ -1,0 +1,37 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "8mkiCRxM9VTKCzxz84Vmiu7YTVo=",
+			"path": "github.com/gin-contrib/cors",
+			"revision": "f9e10995c85a59827f52e1bbcd62ef9590cbe558",
+			"revisionTime": "2019-03-01T06:27:45Z"
+		},
+		{
+			"checksumSHA1": "tkSG4DEwn07YeMInwD/47Lp+E2c=",
+			"path": "github.com/gin-gonic/gin",
+			"revision": "bcf36ade9f763b875bd781ad26cdb0549349c5f8",
+			"revisionTime": "2019-03-16T08:09:10Z"
+		},
+		{
+			"checksumSHA1": "GAHho8qMLbDfGoD4w7SX7ZRT56U=",
+			"path": "github.com/gin-gonic/gin/internal/json",
+			"revision": "bcf36ade9f763b875bd781ad26cdb0549349c5f8",
+			"revisionTime": "2019-03-16T08:09:10Z"
+		},
+		{
+			"checksumSHA1": "mNJq17mONQsTfEIjjTc6pnbUYRs=",
+			"path": "github.com/jinzhu/gorm",
+			"revision": "8b07437717e71c2ff00602ae19f8353ba10aafbb",
+			"revisionTime": "2019-03-10T12:17:21Z"
+		},
+		{
+			"checksumSHA1": "BC1nFxDYDUMYojKqxwSaWqy+b+A=",
+			"path": "github.com/jinzhu/gorm/dialects/postgres",
+			"revision": "8b07437717e71c2ff00602ae19f8353ba10aafbb",
+			"revisionTime": "2019-03-10T12:17:21Z"
+		}
+	],
+	"rootPath": "school-api"
+}
