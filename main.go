@@ -28,7 +28,7 @@ var db *gorm.DB
 func initMigration() {
 	var err error
 	db, err = gorm.Open("postgres",
-		"host=ec2-184-72-238-22.compute-1.amazonaws.com port=5432 user=tvblcbvgwsxrhs dbname=da0mec5vqlq9bk password=9ed13e8cf2b3b5a78f43b5a9925744747e8680c200c25dbb6a42dc2aba286f58") //sslmode=disable
+		"host=ec2-54-221-236-144.compute-1.amazonaws.com port=5432 user=jdriqytivsymsx dbname=d21u0n9iqblmf4 password=bdaedd4403c337f27fe794073ddc7c1650f3f841a67570a12cca5f0e1d72fbbe") //sslmode=disable
 
 	if err != nil {
 		fmt.Println(err.Error())
