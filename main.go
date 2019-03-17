@@ -58,9 +58,10 @@ func main() {
 		MaxAge:           100 * time.Hour,
 	}))
 
+	r.GET("/", home)
+
 	api := r.Group("/api")
 	{
-		api.GET("/", home)
 		api.POST("/post", createPost)
 		api.GET("/delete", deletePost)
 		api.GET("/delete/posts", deletePosts)
