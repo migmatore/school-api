@@ -1,1 +1,1 @@
-web: school-api
+web: $PORT school-api
