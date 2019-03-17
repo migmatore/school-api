@@ -1,1 +1,1 @@
-web: school-api $PORT
+web: $PORT go run main.go
