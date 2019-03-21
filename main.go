@@ -63,9 +63,9 @@ func main() {
 	api := r.Group("/api")
 	{
 		api.POST("/post", createPost)
-		api.GET("/delete", deletePost)
+		api.DELETE("/delete", deletePost)
 		api.GET("/delete/posts", deletePosts)
-		api.POST("/edit/post", editPost)
+		api.PUT("/edit/post", editPost)
 		api.GET("/post", getPost)
 		api.GET("/posts", allPosts)
 		api.GET("/count", countPosts)
