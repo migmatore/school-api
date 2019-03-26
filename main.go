@@ -58,10 +58,9 @@ func main() {
 		MaxAge:           100 * time.Hour,
 	}))
 
-	r.GET("/home", home)
-
 	api := r.Group("/api")
 	{
+		api.GET("/", homeApi)
 		api.POST("/post", createPost)
 		api.DELETE("/delete", deletePost)
 		api.GET("/delete/posts", deletePosts)
@@ -75,10 +74,12 @@ func main() {
 }
 
 func home(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"status":  http.StatusOK,
-		"message": "This is main page",
-	})
+// 	c.JSON(http.StatusOK, gin.H{
+// 		"status":  http.StatusOK,
+// 		"message": "This is main page",
+// 	})
+	
+	c.HTML(http.Status.OK, "This is Api Page")
 }
 
 func createPost(c *gin.Context) {
