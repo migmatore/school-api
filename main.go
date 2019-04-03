@@ -16,19 +16,23 @@ import (
 type postView struct {
 	Id    uint   `json:"id"`
 	Title string `json:"title"`
+	Body  string `json:"body"`
 }
 
 type postModel struct {
 	gorm.Model
 	Title string `json:"title"`
+	Body  string `json:"body"`
 }
 
 var db *gorm.DB
 
+var dbUrl = "host=ec2-54-221-236-144.compute-1.amazonaws.com port=5432 user=jdriqytivsymsx dbname=d21u0n9iqblmf4 password=bdaedd4403c337f27fe794073ddc7c1650f3f841a67570a12cca5f0e1d72fbbe"
+var dbUrlDev = "host=localhost port=5432 user=admin dbname=test password=admin sslmode=disable"
+
 func initMigration() {
 	var err error
-	db, err = gorm.Open("postgres",
-		"host=ec2-54-221-236-144.compute-1.amazonaws.com port=5432 user=jdriqytivsymsx dbname=d21u0n9iqblmf4 password=bdaedd4403c337f27fe794073ddc7c1650f3f841a67570a12cca5f0e1d72fbbe") //sslmode=disable
+	db, err = gorm.Open("postgres", dbUrl) //sslmode=disable
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -47,7 +51,7 @@ func main() {
 
 	initMigration()
 
-	r := gin.New()
+	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
@@ -73,18 +77,19 @@ func main() {
 	_ = r.Run(":" + port)
 }
 
-func home(c *gin.Context) {
-// 	c.JSON(http.StatusOK, gin.H{
-// 		"status":  http.StatusOK,
-// 		"message": "This is main page",
-// 	})
-	
-	c.HTML(http.Status.OK, "This is Api Page")
+func homeApi(c *gin.Context) {
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"status":  http.StatusOK,
+	// 		"message": "This is main page",
+	// 	})
+
+	c.JSON(http.StatusOK, "This is home page")
 }
 
 func createPost(c *gin.Context) {
 	post := postModel{
 		Title: c.PostForm("title"),
+		Body:  c.PostForm("body"),
 	}
 
 	db.Create(&post)
@@ -123,12 +128,15 @@ func editPost(c *gin.Context) {
 	var post postModel
 
 	title := c.PostForm("title")
+	body := c.PostForm("body")
+
 	postId := c.PostForm("id")
 
 	db.First(&post, postId)
 
 	db.Model(&post).Update(postModel{
 		Title: title,
+		Body:  body,
 	})
 
 	c.JSON(http.StatusOK, gin.H{
@@ -153,7 +161,11 @@ func getPost(c *gin.Context) {
 		return
 	}
 
-	_post := postView{Id: post.ID, Title: post.Title}
+	_post := postView{
+		Id:    post.ID,
+		Title: post.Title,
+		Body:  post.Body,
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": http.StatusOK,
@@ -180,6 +192,7 @@ func allPosts(c *gin.Context) {
 		_posts = append(_posts, postView{
 			Id:    item.ID,
 			Title: item.Title,
+			Body:  item.Body,
 		})
 	}
 
