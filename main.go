@@ -53,6 +53,8 @@ func main() {
 
 	r := gin.Default()
 
+	r.LoadHTMLFiles("./info.html")
+
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET, PUT, POST, DELETE"},
@@ -83,7 +85,9 @@ func homeApi(c *gin.Context) {
 	// 		"message": "This is main page",
 	// 	})
 
-	c.JSON(http.StatusOK, "This is home page")
+	c.HTML(http.StatusOK, "info.html", gin.H{
+		"title": "test",
+	})
 }
 
 func createPost(c *gin.Context) {
