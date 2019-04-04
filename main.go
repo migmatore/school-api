@@ -32,7 +32,7 @@ var dbUrlDev = "host=localhost port=5432 user=admin dbname=test password=admin s
 
 func initMigration() {
 	var err error
-	db, err = gorm.Open("postgres", dbUrlDev) //sslmode=disable
+	db, err = gorm.Open("postgres", dbUrl) //sslmode=disable
 
 	if err != nil {
 		fmt.Println(err.Error())
