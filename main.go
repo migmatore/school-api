@@ -14,15 +14,17 @@ import (
 )
 
 type postView struct {
-	Id    uint   `json:"id"`
-	Title string `json:"title"`
-	Body  string `json:"body"`
+	Id      uint   `json:"id"`
+	Title   string `json:"title"`
+	PreBody string `json:"pre_body"`
+	Body    string `json:"body"`
 }
 
 type postModel struct {
 	gorm.Model
-	Title string `json:"title"`
-	Body  string `json:"body"`
+	Title   string `json:"title"`
+	PreBody string `json:"pre_body"`
+	Body    string `json:"body"`
 }
 
 var db *gorm.DB
@@ -92,8 +94,9 @@ func homeApi(c *gin.Context) {
 
 func createPost(c *gin.Context) {
 	post := postModel{
-		Title: c.PostForm("title"),
-		Body:  c.PostForm("body"),
+		Title:   c.PostForm("title"),
+		PreBody: c.PostForm("pre_body"),
+		Body:    c.PostForm("body"),
 	}
 
 	db.Create(&post)
@@ -132,6 +135,7 @@ func editPost(c *gin.Context) {
 	var post postModel
 
 	title := c.PostForm("title")
+	preBody := c.PostForm("pre_body")
 	body := c.PostForm("body")
 
 	postId := c.PostForm("id")
@@ -139,8 +143,9 @@ func editPost(c *gin.Context) {
 	db.First(&post, postId)
 
 	db.Model(&post).Update(postModel{
-		Title: title,
-		Body:  body,
+		Title:   title,
+		PreBody: preBody,
+		Body:    body,
 	})
 
 	c.JSON(http.StatusOK, gin.H{
@@ -166,9 +171,10 @@ func getPost(c *gin.Context) {
 	}
 
 	_post := postView{
-		Id:    post.ID,
-		Title: post.Title,
-		Body:  post.Body,
+		Id:      post.ID,
+		Title:   post.Title,
+		PreBody: post.PreBody,
+		Body:    post.Body,
 	}
 
 	c.JSON(http.StatusOK, gin.H{
@@ -194,9 +200,10 @@ func allPosts(c *gin.Context) {
 
 	for _, item := range posts {
 		_posts = append(_posts, postView{
-			Id:    item.ID,
-			Title: item.Title,
-			Body:  item.Body,
+			Id:      item.ID,
+			Title:   item.Title,
+			PreBody: item.PreBody,
+			Body:    item.Body,
 		})
 	}
 
