@@ -27,6 +27,24 @@ type postModel struct {
 	Body    string `json:"body"`
 }
 
+type TestView struct {
+	Id        uint   `json:"id"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Class     string `json:"class"`
+	Points    uint   `json:"points"`
+	Result    uint   `json:"result"`
+}
+
+type TestModel struct {
+	gorm.Model
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Class     string `json:"class"`
+	Points    uint   `json:"points"`
+	Result    uint   `json:"result"`
+}
+
 var db *gorm.DB
 
 var dbUrl = "host=ec2-54-221-236-144.compute-1.amazonaws.com port=5432 user=jdriqytivsymsx dbname=d21u0n9iqblmf4 password=bdaedd4403c337f27fe794073ddc7c1650f3f841a67570a12cca5f0e1d72fbbe"
@@ -42,6 +60,7 @@ func initMigration() {
 	}
 
 	db.AutoMigrate(&postModel{})
+	db.AutoMigrate(&TestModel{})
 }
 
 func main() {
@@ -66,17 +85,21 @@ func main() {
 		MaxAge:           100 * time.Hour,
 	}))
 
-	api := r.Group("/api")
-	{
-		api.GET("/", homeApi)
-		api.POST("/post", createPost)
-		api.DELETE("/delete", deletePost)
-		api.GET("/delete/posts", deletePosts)
-		api.PUT("/edit/post", editPost)
-		api.GET("/post", getPost)
-		api.GET("/posts", allPosts)
-		api.GET("/count", countPosts)
-	}
+	//api := r.Group("/api")
+	//{
+	//	api.GET("/", homeApi)
+	//	api.POST("/post", createPost)
+	//	api.DELETE("/delete", deletePost)
+	//	api.GET("/delete/posts", deletePosts)
+	//	api.PUT("/edit/post", editPost)
+	//	api.GET("/post", getPost)
+	//	api.GET("/posts", allPosts)
+	//	api.GET("/count", countPosts)
+	//}
+
+	r.GET("api/test/", homeApi)
+	r.POST("api/test/", postTests)
+	r.GET("api/test/users", getTestUsers)
 
 	_ = r.Run(":" + port)
 }
@@ -221,5 +244,89 @@ func countPosts(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"status": http.StatusOK,
 		"data":   len(posts),
+	})
+}
+
+func postTests(c *gin.Context) {
+	var points uint
+	var result uint
+
+	firstName := c.PostForm("firstName")
+	lastName := c.PostForm("lastName")
+	class := c.PostForm("class")
+
+	ans1 := c.PostForm("ans1")
+	ans2 := c.PostForm("ans2")
+	ans3 := c.PostForm("ans3")
+
+	if ans1 == "2" {
+		points += 1
+	}
+	if ans2 == "3" {
+		points += 1
+	}
+	if ans3 == "2" {
+		points += 1
+	}
+
+	if points < 1 {
+		result = 2
+	}
+	if points == 1 {
+		result = 3
+	}
+	if points == 2 {
+		result = 4
+	}
+	if points == 3 {
+		result = 5
+	}
+
+	test := TestModel{
+		FirstName: firstName,
+		LastName:  lastName,
+		Class:     class,
+		Points:    points,
+		Result:    result,
+	}
+
+	db.Create(&test)
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"points": points,
+		"result": result,
+	})
+}
+
+func getTestUsers(c *gin.Context) {
+	var tests []TestModel
+	var _tests []TestView
+
+	db.Find(&tests)
+
+	if len(tests) <= 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":  http.StatusNotFound,
+			"message": "No posts found!",
+		})
+
+		return
+	}
+
+	for _, item := range tests {
+		_tests = append(_tests, TestView{
+			Id:        item.ID,
+			FirstName: item.FirstName,
+			LastName:  item.LastName,
+			Class:     item.Class,
+			Points:    item.Points,
+			Result:    item.Result,
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": http.StatusOK,
+		"data":   _tests,
 	})
 }
