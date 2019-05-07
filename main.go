@@ -85,17 +85,17 @@ func main() {
 		MaxAge:           100 * time.Hour,
 	}))
 
-	//api := r.Group("/api")
-	//{
-	//	api.GET("/", homeApi)
-	//	api.POST("/post", createPost)
-	//	api.DELETE("/delete", deletePost)
-	//	api.GET("/delete/posts", deletePosts)
-	//	api.PUT("/edit/post", editPost)
-	//	api.GET("/post", getPost)
-	//	api.GET("/posts", allPosts)
-	//	api.GET("/count", countPosts)
-	//}
+	api := r.Group("/api")
+	{
+		api.GET("/", homeApi)
+		api.POST("/post", createPost)
+		api.DELETE("/delete", deletePost)
+		api.GET("/delete/posts", deletePosts)
+		api.PUT("/edit/post", editPost)
+		api.GET("/post", getPost)
+		api.GET("/posts", allPosts)
+		api.GET("/count", countPosts)
+	}
 
 	r.GET("api/test/", homeApi)
 	r.POST("api/test/", postTests)
